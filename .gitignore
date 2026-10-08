@@ -1,0 +1,4 @@
+BarberiaApi/build/
+BarberiaApi/.gradle/
+.idea/
+*.iml
