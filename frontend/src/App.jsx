@@ -8,7 +8,7 @@ function Pendiente({ titulo }) {
   return (
     <>
       <h1>{titulo}</h1>
-      <p className="subtitulo">Esta pantalla se construye en el siguiente paso.</p>
+      <p className="subtitulo">PENDIENTE</p>
     </>
   )
 }
