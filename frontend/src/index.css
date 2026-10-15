@@ -324,3 +324,270 @@ input {
   font-size: 13px;
   color: var(--texto-suave);
 }
+/* ---------- Encabezado con botón ---------- */
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.boton-verde {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  background: var(--verde-boton);
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.boton-verde:hover {
+  background: #3d4b27;
+}
+
+.boton-claro {
+  padding: 10px 16px;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  background: var(--blanco-crema);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.mensaje {
+  color: var(--texto-suave);
+  font-size: 14px;
+}
+
+.mensaje.error {
+  color: #a33a30;
+}
+
+/* ---------- Botones de iconos ---------- */
+.acciones {
+  display: flex;
+  gap: 6px;
+}
+
+.icono-boton {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.icono-boton.editar {
+  background: #ece4d2;
+  color: var(--texto-suave);
+}
+
+.icono-boton.borrar {
+  background: #f3d9d6;
+  color: #a33a30;
+}
+
+/* ---------- Servicios ---------- */
+.rejilla-servicios {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.servicio-arriba {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.servicio-icono {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #dfeadb;
+  color: #3f6b3a;
+  display: grid;
+  place-items: center;
+}
+
+.rejilla-servicios .tarjeta h2 {
+  margin: 14px 0 12px;
+}
+
+.servicio-pie {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.precio {
+  font-size: 22px;
+  color: var(--cafe);
+}
+
+.duracion {
+  font-size: 12px;
+  color: var(--texto-suave);
+}
+
+/* ---------- Tarjetas de resumen (Barberos) ---------- */
+.fila-stats.dos {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.stat-con-icono {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* ---------- Tablas ---------- */
+.tabla-contenedor {
+  padding: 0;
+  overflow: hidden;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tabla th {
+  text-align: left;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  background: #ece4d2;
+  padding: 12px 20px;
+}
+
+.tabla td {
+  padding: 14px 20px;
+  border-top: 1px solid var(--borde);
+}
+
+.tabla .derecha {
+  text-align: right;
+}
+
+.tabla .derecha .acciones {
+  justify-content: flex-end;
+}
+
+.tabla .vacio {
+  text-align: center;
+  color: var(--texto-suave);
+}
+
+.persona {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.persona small {
+  display: block;
+  font-size: 12px;
+  color: var(--texto-suave);
+}
+
+.avatar-grande {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #c9a07a;
+}
+
+.avatar-iniciales {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #ece4d2;
+  color: var(--texto-suave);
+  font-size: 11px;
+  display: grid;
+  place-items: center;
+}
+
+.etiqueta.activo {
+  background: #dfeadb;
+  color: #3f6b3a;
+}
+
+.etiqueta.inactivo {
+  background: #e3e6ea;
+  color: #4a5560;
+}
+
+/* ---------- Buscador ---------- */
+.barra-busqueda {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.buscador {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 320px;
+  padding: 0 12px;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  background: var(--blanco-crema);
+  color: var(--texto-suave);
+}
+
+.buscador input {
+  border: none;
+  background: transparent;
+  padding: 10px 0;
+  outline: none;
+}
+
+.barra-busqueda .subtitulo {
+  margin: 0;
+}
+
+/* ---------- Ventana modal ---------- */
+.modal-fondo {
+  position: fixed;
+  inset: 0;
+  background: rgba(36, 49, 39, 0.45);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  z-index: 10;
+}
+
+.modal {
+  width: 100%;
+  max-width: 420px;
+}
+
+.modal-botones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+label.casilla {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+input[type='checkbox'] {
+  width: auto;
+}
