@@ -2,6 +2,8 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
+import Citas from './pages/Citas'
+import NuevaCita from './pages/NuevaCita'
 import Servicios from './pages/Servicios'
 import Barberos from './pages/Barberos'
 import Clientes from './pages/Clientes'
@@ -24,7 +26,9 @@ export default function App() {
 
       <Route element={<Layout />}>
         <Route path="/panel" element={<Dashboard />} />
-        <Route path="/citas" element={<Pendiente titulo="Gestión de Citas" />} />
+        <Route path="/citas" element={<Citas />} />
+        <Route path="/citas/nueva" element={<NuevaCita />} />
+        <Route path="/citas/:id/editar" element={<NuevaCita />} />
         <Route path="/barberos" element={<Barberos />} />
         <Route path="/clientes" element={<Clientes />} />
         <Route path="/servicios" element={<Servicios />} />

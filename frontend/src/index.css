@@ -591,3 +591,265 @@ label.casilla {
 input[type='checkbox'] {
   width: auto;
 }
+/* ---------- Select y campos de solo lectura ---------- */
+select {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  background: var(--blanco-crema);
+  font-size: 14px;
+  color: var(--texto);
+}
+
+input[readonly] {
+  background: #f4efe3;
+}
+
+a.boton-verde {
+  text-decoration: none;
+}
+
+.boton-verde:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ---------- Pantalla de Citas ---------- */
+.fila-controles {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.resumen-citas {
+  font-size: 12px;
+  color: var(--texto-suave);
+}
+
+.alternar {
+  display: inline-flex;
+  background: #ece4d2;
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.alternar button {
+  border: none;
+  background: transparent;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--texto-suave);
+}
+
+.alternar button.activo {
+  background: var(--verde-boton);
+  color: white;
+}
+
+.citas-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.citas-layout.solo-lista {
+  grid-template-columns: 1fr;
+}
+
+.tabla-herramientas {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--borde);
+}
+
+.tabla-herramientas .buscador {
+  flex: 1;
+  width: auto;
+}
+
+.tabla-herramientas select {
+  width: auto;
+}
+
+.tabla td small {
+  display: block;
+  font-size: 12px;
+  color: var(--texto-suave);
+}
+
+.hora-texto {
+  color: var(--cafe);
+  font-weight: 600;
+}
+
+.tabla tr.fila-cancelada td {
+  opacity: 0.5;
+}
+
+.icono-boton.ok {
+  background: #dfeadb;
+  color: #3f6b3a;
+}
+
+.icono-boton:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ---------- Calendario ---------- */
+.calendario-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.calendario-cabecera strong {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.calendario-cabecera button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--texto-suave);
+  display: grid;
+  place-items: center;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.calendario-rejilla {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+}
+
+.dia-semana {
+  font-size: 11px;
+  color: var(--texto-suave);
+  padding: 4px 0;
+}
+
+.dia {
+  aspect-ratio: 1;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  position: relative;
+  color: var(--texto);
+}
+
+.dia:hover {
+  background: #efe5d3;
+}
+
+.dia.seleccionado {
+  background: var(--verde-boton);
+  color: white;
+}
+
+.dia.con-cita::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 50%;
+  background: var(--cafe);
+}
+
+.dia.seleccionado.con-cita::after {
+  background: white;
+}
+
+.calendario-pie {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--borde);
+  font-size: 12px;
+  color: var(--texto-suave);
+}
+
+/* ---------- Nueva cita ---------- */
+.formulario-cita {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.fila-doble {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.enlace-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--texto-suave);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.aviso-choque {
+  margin-top: 16px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f3d9d6;
+  color: #a33a30;
+  font-size: 13px;
+}
+
+.resumen-imagen {
+  height: 120px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #4a3526, #8a5a3c);
+  display: grid;
+  place-items: center;
+  color: #f1ece1;
+  margin-bottom: 14px;
+}
+
+.resumen-fila {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 6px 0;
+  color: var(--texto-suave);
+}
+
+.resumen-fila span:last-child {
+  color: var(--texto);
+}
+
+.resumen-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 12px;
+  margin-top: 6px;
+  border-top: 1px solid var(--borde);
+  font-weight: 600;
+}
+
+.resumen-total span:last-child {
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--cafe);
+}

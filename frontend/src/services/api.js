@@ -57,3 +57,10 @@ export const serviciosApi = crearRecurso('servicios', 'idServicio')
 export const barberosApi = crearRecurso('barberos', 'idBarbero')
 export const clientesApi = crearRecurso('clientes', 'idCliente')
 export const citasApi = crearRecurso('citas', 'idCita')
+function hoyISO() {
+  const d = new Date()
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+// Día con el que abren Citas y Nueva cita
+export const FECHA_INICIAL = USAR_API ? hoyISO() : datos.FECHA_DEMO
