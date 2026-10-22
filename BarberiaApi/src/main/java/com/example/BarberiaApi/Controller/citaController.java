@@ -1,108 +1,79 @@
 package com.example.BarberiaApi.Controller;
 
+import com.example.BarberiaApi.Model.EstadoCita;
 import com.example.BarberiaApi.Model.citaModel;
 import com.example.BarberiaApi.Repository.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/citas")
 public class citaController {
 
-    private final citaRepository citaRepository;
-    private final clienteRepository clienteRepository;
-    private final BarberoRepository barberoRepository;
-    private final ServicioRepository servicioRepository;
+    private final citaRepository repo;
+    private final clienteRepository clienteRepo;
+    private final barberoRepository barberoRepo;
+    private final servicioRepository servicioRepo;
 
-    public citaController(citaRepository citaRepository,
-                          clienteRepository clienteRepository,
-                          BarberoRepository barberoRepository,
-                          ServicioRepository servicioRepository) {
-        this.citaRepository = citaRepository;
-        this.clienteRepository = clienteRepository;
-        this.barberoRepository = barberoRepository;
-        this.servicioRepository = servicioRepository;
+    public citaController(citaRepository repo, clienteRepository clienteRepo,
+                          barberoRepository barberoRepo, servicioRepository servicioRepo) {
+        this.repo = repo;
+        this.clienteRepo = clienteRepo;
+        this.barberoRepo = barberoRepo;
+        this.servicioRepo = servicioRepo;
     }
 
     @GetMapping
-    public List<citaModel> listar(@RequestParam(required = false) LocalDate fecha) {
-        if (fecha != null) {
-            return citaRepository.findByFecha(fecha);
-        }
-        return citaRepository.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<citaModel> obtener(@PathVariable Long id) {
-        return citaRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
+    public List<citaModel> listar() { return repo.findAll(); }
 
     @PostMapping
-    public ResponseEntity<?> crear(@RequestBody citaModel cita) {
-        ResponseEntity<String> error = validar(cita);
-        if (error != null) {
-            return error;
-        }
-        cita.setId(null);
-        if (cita.getEstado() == null) {
-            cita.setEstado("PENDIENTE");
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).body(citaRepository.save(cita));
+    public ResponseEntity<?> crear(@RequestBody citaModel c) {
+        c.setIdCita(null);
+        ResponseEntity<?> error = validar(c, 0L);
+        if (error != null) return error;
+        return ResponseEntity.status(HttpStatus.CREATED).body(repo.save(c));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody citaModel datos) {
-        return citaRepository.findById(id).map(existente -> {
-            ResponseEntity<String> error = validar(datos);
-            if (error != null) {
-                return (ResponseEntity<?>) error;
-            }
-            existente.setCliente(datos.getCliente());
-            existente.setBarbero(datos.getBarbero());
-            existente.setServicio(datos.getServicio());
-            existente.setFecha(datos.getFecha());
-            existente.setHora(datos.getHora());
-            existente.setEstado(datos.getEstado());
-            return ResponseEntity.ok(citaRepository.save(existente));
-        }).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody citaModel c) {
+        if (!repo.existsById(id)) return ResponseEntity.notFound().build();
+        c.setIdCita(id);
+        ResponseEntity<?> error = validar(c, id);
+        if (error != null) return error;
+        return ResponseEntity.ok(repo.save(c));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        if (!citaRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        citaRepository.deleteById(id);
+        if (!repo.existsById(id)) return ResponseEntity.notFound().build();
+        repo.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    // Verifica que cliente, barbero y servicio existan, y que el horario esté libre
-    private ResponseEntity<String> validar(citaModel cita) {
-        if (cita.getCliente() == null || cita.getBarbero() == null || cita.getServicio() == null
-                || cita.getFecha() == null || cita.getHora() == null) {
-            return ResponseEntity.badRequest()
-                    .body("Faltan datos: cliente, barbero, servicio, fecha y hora son obligatorios");
+    private ResponseEntity<?> validar(citaModel c, Long idActual) {
+        if (c.getIdCliente() == null || c.getIdBarbero() == null || c.getIdServicio() == null
+                || c.getInicio() == null || c.getFin() == null || c.getEstado() == null) {
+            return error(HttpStatus.BAD_REQUEST, "Faltan datos obligatorios de la cita");
         }
-        if (!clienteRepository.existsById(cita.getCliente().getId())) {
-            return ResponseEntity.badRequest().body("El cliente no existe");
+        if (!c.getFin().isAfter(c.getInicio())) {
+            return error(HttpStatus.BAD_REQUEST, "La hora de fin debe ser posterior al inicio");
         }
-        if (!barberoRepository.existsById(cita.getBarbero().getId())) {
-            return ResponseEntity.badRequest().body("El barbero no existe");
-        }
-        if (!servicioRepository.existsById(cita.getServicio().getId())) {
-            return ResponseEntity.badRequest().body("El servicio no existe");
-        }
-        if (citaRepository.existsByBarberoIdAndFechaAndHora(
-                cita.getBarbero().getId(), cita.getFecha(), cita.getHora())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("El barbero ya tiene una cita a esa hora");
+        if (!clienteRepo.existsById(c.getIdCliente())) return error(HttpStatus.BAD_REQUEST, "El cliente no existe");
+        if (!barberoRepo.existsById(c.getIdBarbero())) return error(HttpStatus.BAD_REQUEST, "El barbero no existe");
+        if (!servicioRepo.existsById(c.getIdServicio())) return error(HttpStatus.BAD_REQUEST, "El servicio no existe");
+
+        if (c.getEstado() != EstadoCita.CANCELADA
+                && repo.hayEmpalme(c.getIdBarbero(), c.getInicio(), c.getFin(), idActual)) {
+            return error(HttpStatus.CONFLICT, "El barbero ya tiene una cita que se cruza con ese horario");
         }
         return null;
+    }
+
+    private ResponseEntity<Map<String, String>> error(HttpStatus status, String mensaje) {
+        return ResponseEntity.status(status).body(Map.of("mensaje", mensaje));
     }
 }

@@ -8,26 +8,18 @@ public class clienteModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false, length = 100)
+    private Long idCliente;
     private String nombre;
-
+    @Column(unique = true)
     private String telefono;
+    private String email;
 
-    private String correo;
-
-    public clienteModel() {}
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
+    public Long getIdCliente() { return idCliente; }
+    public void setIdCliente(Long idCliente) { this.idCliente = idCliente; }
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
-
     public String getTelefono() { return telefono; }
     public void setTelefono(String telefono) { this.telefono = telefono; }
-
-    public String getCorreo() { return correo; }
-    public void setCorreo(String correo) { this.correo = correo; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 }

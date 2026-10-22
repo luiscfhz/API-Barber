@@ -11,46 +11,30 @@ import java.util.List;
 @RequestMapping("/api/clientes")
 public class clienteController {
 
-    private final clienteRepository repository;
+    private final clienteRepository repo;
 
-    public clienteController(clienteRepository repository) {
-        this.repository = repository;
-    }
+    public clienteController(clienteRepository repo) { this.repo = repo; }
 
     @GetMapping
-    public List<clienteModel> listar() {
-        return repository.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<clienteModel> obtener(@PathVariable Long id) {
-        return repository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
+    public List<clienteModel> listar() { return repo.findAll(); }
 
     @PostMapping
-    public clienteModel crear(@RequestBody clienteModel cliente) {
-        cliente.setId(null);
-        return repository.save(cliente);
+    public clienteModel crear(@RequestBody clienteModel c) {
+        c.setIdCliente(null);
+        return repo.save(c);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<clienteModel> actualizar(@PathVariable Long id, @RequestBody clienteModel datos) {
-        return repository.findById(id).map(existente -> {
-            existente.setNombre(datos.getNombre());
-            existente.setTelefono(datos.getTelefono());
-            existente.setCorreo(datos.getCorreo());
-            return ResponseEntity.ok(repository.save(existente));
-        }).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<clienteModel> actualizar(@PathVariable Long id, @RequestBody clienteModel c) {
+        if (!repo.existsById(id)) return ResponseEntity.notFound().build();
+        c.setIdCliente(id);
+        return ResponseEntity.ok(repo.save(c));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        if (!repository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        repository.deleteById(id);
+        if (!repo.existsById(id)) return ResponseEntity.notFound().build();
+        repo.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
