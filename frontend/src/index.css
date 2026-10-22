@@ -853,3 +853,42 @@ a.boton-verde {
   font-weight: 400;
   color: var(--cafe);
 }
+/* ---------- Panel principal ---------- */
+.encabezado-tarjeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+
+.enlace-suave {
+  font-size: 12px;
+  color: var(--cafe);
+  text-decoration: none;
+}
+
+.enlace-suave:hover {
+  text-decoration: underline;
+}
+
+.acceso {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.acceso > span {
+  flex: 1;
+  font-size: 14px;
+}
+
+.acceso small {
+  display: block;
+  font-size: 11px;
+
+  color: var(--texto-suave);
+}
+
+.acceso:hover {
+  background: #ebe1cb;
+}
