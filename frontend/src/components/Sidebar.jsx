@@ -1,5 +1,7 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { LayoutDashboard, Calendar, Scissors, Users, Sparkles, Settings, LogOut } from 'lucide-react'
+import { obtenerSesion, cerrarSesion } from '../services/sesion'
+import { cerrarSesionApi } from '../services/api'
 
 const opciones = [
   { ruta: '/panel', texto: 'Panel principal', icono: LayoutDashboard },
@@ -11,6 +13,15 @@ const opciones = [
 ]
 
 export default function Sidebar() {
+  const navegar = useNavigate()
+  const sesion = obtenerSesion()
+
+  async function salir() {
+    await cerrarSesionApi()
+    cerrarSesion()
+    navegar('/login')
+  }
+
   return (
     <aside className="sidebar">
       <div className="marca">
@@ -23,11 +34,7 @@ export default function Sidebar() {
 
       <nav className="menu">
         {opciones.map(({ ruta, texto, icono: Icono }) => (
-          <NavLink
-            key={ruta}
-            to={ruta}
-            className={({ isActive }) => (isActive ? 'activo' : '')}
-          >
+          <NavLink key={ruta} to={ruta} className={({ isActive }) => (isActive ? 'activo' : '')}>
             <Icono size={18} />
             {texto}
           </NavLink>
@@ -37,12 +44,12 @@ export default function Sidebar() {
       <div className="usuario">
         <div className="avatar" />
         <div style={{ flex: 1 }}>
-          Mariana López
-          <small>Administradora</small>
+          {sesion?.nombre}
+          <small>{sesion?.rol}</small>
         </div>
-        <NavLink to="/login" style={{ color: '#cfcbbb' }}>
+        <button className="boton-salir" onClick={salir} title="Cerrar sesión">
           <LogOut size={18} />
-        </NavLink>
+        </button>
       </div>
     </aside>
   )

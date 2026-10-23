@@ -182,3 +182,33 @@
     border-right-color: var(--border);
   }
 }
+/* ---------- Login con errores ---------- */
+.login-error {
+  margin-top: 16px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f3d9d6;
+  color: #a33a30;
+  font-size: 13px;
+}
+
+.boton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------- Botón de cerrar sesión ---------- */
+.boton-salir {
+  border: none;
+  background: transparent;
+  color: #cfcbbb;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.boton-salir:hover {
+  background: rgba(255, 255, 255, 0.1);
+}

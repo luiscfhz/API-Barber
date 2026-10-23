@@ -3,6 +3,7 @@ import { Calendar, Scissors, Users, Sparkles, Settings, ChevronRight } from 'luc
 import { citasApi, clientesApi, barberosApi, serviciosApi, FECHA_INICIAL } from '../services/api'
 import { useRecurso } from '../services/useRecurso'
 import { diaDe, horaDe, estados, fechaLarga } from '../data/utilidades'
+import { obtenerSesion } from '../services/sesion'
 
 const porId = (lista, campo) => Object.fromEntries(lista.map((x) => [x[campo], x]))
 
@@ -22,6 +23,7 @@ const accesos = [
 ]
 
 export default function Dashboard() {
+  const nombre = obtenerSesion()?.nombre?.split(' ')[0] ?? ''
   const { datos: citas, error } = useRecurso(citasApi)
   const { datos: clientes } = useRecurso(clientesApi)
   const { datos: barberos } = useRecurso(barberosApi)
@@ -42,7 +44,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <h1>{saludo()}, Mariana</h1>
+      <h1>{saludo()}, {nombre}</h1>
       <p className="subtitulo">{fechaLarga(FECHA_INICIAL)} · El Mapache Bigotón</p>
 
       {error && <p className="mensaje error">{error}</p>}
